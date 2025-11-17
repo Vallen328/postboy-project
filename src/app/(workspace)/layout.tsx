@@ -1,10 +1,15 @@
 import { currentUser } from '@/modules/authentication/actions'
 import Header from '@/modules/layout/components/header'
+import { initializeWorkspace } from '@/modules/workspace/actions'
 import React from 'react'
 
 const RootLayout = async( {children}:{children: React.ReactNode} ) => {
 
+  const workspace = await initializeWorkspace()
   const user = await currentUser()
+
+  console.log(workspace);
+  
   return (
     <>
     {/* @ts-ignore */}
