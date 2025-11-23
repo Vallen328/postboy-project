@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useRequestPlaygroundStore } from "../store/useRequestStore"
 import { X } from "lucide-react";
+import AddNameModal from "./add-name-modal";
 
 const TabBar = () => {
     const {tabs, activeTabId, setActiveTab, addTab, closeTab} = useRequestPlaygroundStore()
@@ -14,7 +15,10 @@ const TabBar = () => {
         DELETE: "text-red-500",
     };
 
-    const onDoubleClick = (id: string) => {}
+    const onDoubleClick = (tabId: string) => {
+      setSelectedTabId(tabId)
+      setRenameModalOpen(true);
+    }
   return (
     <>
       <div className="flex items-center border-b border-zinc-800 bg-zinc-900">
@@ -56,6 +60,15 @@ const TabBar = () => {
             +
         </button>
       </div>
+      {
+        selectedTabId && (
+          <AddNameModal
+          isModalOpen={renameModalOpen}
+          setIsModalOpen={setRenameModalOpen}
+          tabId={selectedTabId}
+          />
+        )
+      }
     </>
   )
 }
