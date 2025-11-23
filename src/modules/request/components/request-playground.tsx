@@ -7,6 +7,8 @@ import TabBar from './tab-bar';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'sonner';
 import RequestEditor from './request-editor';
+import { REST_METHOD } from '@prisma/client';
+import SaveRequestToCollectionModal from '@/modules/collections/components/add-request-modal';
 
 const PlaygroundPage = () => {
   const {tabs, activeTabId, addTab} = useRequestPlaygroundStore()
@@ -15,6 +17,55 @@ const PlaygroundPage = () => {
 
   const {mutateAsync, isPending} = useSaveRequest(activeTab?.requestId!)
   const [showSaveModal, setShowSaveModal] = useState(false);
+
+  const getCurrentRequestData = () => {
+    if(!activeTab) {
+      return {
+        name: "Untitled Request",
+        method: REST_METHOD.GET as REST_METHOD,
+        url: "https://echo.hoppscotch.io"
+      }
+    }
+
+    return {
+      name: activeTab.title,
+      method: (activeTab.method as REST_METHOD),
+      url: activeTab.url
+    }
+  }
+
+  useHotkeys("ctrl+s, meta+shift+s", async(e) => {
+    e.preventDefault()
+    e.stopPropagation();
+
+    if(!activeTab){
+      toast.error("No active request to save");
+      return;
+    }
+
+    if(activeTab.collectionId){
+      try{
+        await mutateAsync({
+          url: activeTab.url || "https://echo.hoppscotch.io",
+          method: activeTab.method as REST_METHOD,
+          name: activeTab.title || "Untitled Request",
+          body: activeTab.body,
+          headers: activeTab.headers,
+          parameters: activeTab.parameters,
+        });
+        toast.success("Request Updated")
+      }catch(error){
+        console.error("Failed to update request:", error);
+        toast.error("Failed to update request");
+      }
+    }
+    else{
+      setShowSaveModal(true)
+    }
+  },
+  {preventDefault: true, enableOnFormTags: true},
+  [activeTab]
+)
 
   useHotkeys("ctrl+g, meta+shift+g", (e) => {
     e.preventDefault();
@@ -56,6 +107,12 @@ const PlaygroundPage = () => {
       <div className='flex-1 overflow-auto'>
         <RequestEditor />
       </div>
+      <SaveRequestToCollectionModal
+      isModalOpen = {showSaveModal}
+      setIsModalOpen={setShowSaveModal}
+      requestData = {getCurrentRequestData()}
+      initialName={getCurrentRequestData().name}
+      />
     </div>
   )
 }
