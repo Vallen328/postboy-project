@@ -5,9 +5,9 @@ type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'error' | 
 
 type WsMessage = {
     id: string
-    type: "sent" | "recevied"
+    type: "sent" | "received"
     data: any
-    timeStamp: Date
+    timestamp: Date
     raw?: string
 }
 
@@ -54,7 +54,7 @@ interface WsStore {
 
     // Internal actions
     setStatus: (status: ConnectionStatus) => void
-    addMessage: (message: Omit<WsMessage, 'id' | 'timeStamp'>) => void
+    addMessage: (message: Omit<WsMessage, 'id' | 'timestamp'>) => void
     handleReconnect: () => void
     getReadyState: () => number
 }
@@ -94,7 +94,7 @@ export const useWsStore = create<WsStore>()(
         const state = get()
 
         if(state.ws){
-            state.ws.close
+            state.ws.close()
         }
 
         if(state.reconnectTimeoutId){
@@ -127,7 +127,7 @@ export const useWsStore = create<WsStore>()(
 
             ws.onmessage=(event)=>{
                 get().addMessage({
-                    type: 'recevied',
+                    type: 'received',
                     data: event.data,
                     raw: event.data
                 })
@@ -215,11 +215,11 @@ export const useWsStore = create<WsStore>()(
 
     setStatus: (status: ConnectionStatus) => set({ status }),
 
-    addMessage: (message: Omit<WsMessage, 'id' | 'timeStamp'>) =>{
+    addMessage: (message: Omit<WsMessage, 'id' | 'timestamp'>) =>{
         const newMessage: WsMessage = {
             ...message,
             id:crypto.randomUUID(),
-            timeStamp: new Date()
+            timestamp: new Date()
         }
         set(state => ({
             messages: [...state.messages, newMessage].slice(-100) //Keep last 100 messages
