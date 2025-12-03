@@ -1,36 +1,304 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PostBoy - API Testing & Collaboration Platform
 
-## Getting Started
+PostBoy is a modern, full-stack web application for API testing, request management, and team collaboration. Built with Next.js, TypeScript, and PostgreSQL, it provides a seamless experience for developers to test, organize, and share API requests across teams.
 
-First, run the development server:
+## 🚀 Features
 
+- **API Request Testing**: Create, manage, and execute HTTP requests with full customization
+- **Workspace Management**: Organize projects into workspaces with team collaboration features
+- **Collections**: Group related API requests into organized collections
+- **Request History & Saving**: Save requests for reuse and track request execution history
+- **Real-time Collaboration**: Live updates and synchronization across team members
+- **Authentication**: Secure multi-provider authentication (GitHub, Google)
+- **AI Integration**: Built-in AI agents for request generation and API documentation assistance
+- **Monaco Editor**: Professional code editor for request bodies and responses
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Team Invitations**: Invite team members to workspaces with email invitations
+- **Dark Theme**: UI with dark theme
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: [Next.js 16.0.3](https://nextjs.org/)
+- **Language**: TypeScript 5
+- **UI Library**: React 19.2.0 with Radix UI components
+- **Styling**: Tailwind CSS 4
+- **State Management**: Zustand
+- **Form Handling**: React Hook Form with Zod validation
+- **Data Fetching**: TanStack React Query
+- **Editor**: Monaco Editor for code editing
+- **Charts**: Recharts for data visualization
+- **Icons**: Lucide React
+- **Toast Notifications**: Sonner
+- **Theme Management**: next-themes
+
+### Backend
+- **Runtime**: Node.js with Next.js API Routes
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: Better Auth v1.3.34
+- **AI Integration**: Google Generative AI (Gemini)
+- **HTTP Client**: Axios
+
+### Development Tools
+- **Linting**: ESLint 9
+- **Package Manager**: npm
+- **Containerization**: Docker & Docker Compose
+- **Version Control**: Git
+
+## 📦 Project Structure
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+postboy-project/
+├── src/
+│   ├── app/                      # Next.js app directory
+│   │   ├── (auth)/               # Authentication pages
+│   │   ├── (workspace)/          # Workspace dashboard & editors
+│   │   ├── api/                  # API routes (Next.js Server Actions)
+│   │   │   ├── ai/               # AI endpoints (request naming, JSON generation)
+│   │   │   └── auth/             # Authentication endpoints
+│   │   └── invite/               # Invitation handling (/invite/[token])
+│   │
+│   ├── components/               # Global components
+│   │   └── ui/                   # Shadcn UI component library
+│   │
+│   ├── modules/                  # Feature-based architecture
+│   │   ├── ai/                   # AI integration (services, types, hooks)
+│   │   ├── authentication/       # Auth logic & server helpers
+│   │   ├── collections/          # Collection CRUD + UI
+│   │   ├── invites/              # Workspace invite logic
+│   │   ├── layout/               # Header, sidebar, themes
+│   │   ├── realtime/             # WebSocket client & logs system
+│   │   ├── request/              # Request editor, tabs, response viewer
+│   │   └── workspace/            # Workspaces, members, switching logic
+│   │
+│   ├── hooks/                    # Shared custom React hooks
+│   ├── lib/                      # Core utilities
+│   │   ├── ai-agents.ts          # Gemini AI agents (ai-sdk)
+│   │   ├── auth.ts               # Better Auth setup
+│   │   ├── db.ts                 # Prisma client
+│   │   ├── env.ts                # Environment validation
+│   │   └── utils.ts              # Utility helpers
+│   │
+│   └── components/               # Reusable global components
+│
+├── prisma/
+│   ├── schema.prisma             # Prisma schema
+│   └── migrations/               # Migration history
+│
+├── public/                       # Static assets
+├── .env                          # Environment variables
+├── docker-compose.yml            # Docker services (PostgreSQL)
+├── next.config.mjs               # Next.js configuration
+├── tsconfig.json                 # TypeScript configuration
+├── tailwind.config.ts            # Tailwind config
+├── components.json               # Shadcn UI config
+├── package.json                  # Dependencies & scripts
+└── README.md                     # This file
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗄️ Database Schema
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Core Models
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **User**: User accounts with authentication profiles
+- **Session**: Active user sessions
+- **Account**: OAuth account credentials (GitHub, Google)
+- **Verification**: Email verification tokens
 
-## Learn More
+### Workspace & Collaboration
 
-To learn more about Next.js, take a look at the following resources:
+- **Workspace**: Team workspaces for organizing projects
+- **WorkspaceMember**: User membership in workspaces with roles
+- **WorkspaceInvite**: Pending invitations to join workspaces
+- **Collection**: Grouped API requests within workspaces
+- **Request**: Individual API test requests
+- **RequestRun**: Execution history of requests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js 18+ (recommended: 20+)
+- PostgreSQL 12+
+- Docker & Docker Compose (optional)
+- npm or yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd postboy-project
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+3. **Set up environment variables**
+   ```bash
+   Create a .env file in the root directory with the following variables:
+   # Database
+   DATABASE_URL="postgresql://postgres:postgres@localhost:5431/postgres"
+
+    # Authentication
+    BETTER_AUTH_SECRET=your_secret_key_here
+    BETTER_AUTH_URL=http://localhost:3000
+
+    # OAuth Providers
+    GITHUB_CLIENT_ID=your_github_client_id
+    GITHUB_CLIENT_SECRET=your_github_client_secret
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+    # Application
+    NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+    # AI Integration
+    GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_api_key
+    ```
+4. **Start PostgreSQL with Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+5. **Run Prisma migrations**
+   ```
+   npx prisma migrate dev
+   ```
+6. **Start the development server**
+   ```
+   npm run dev
+   ```
+7. **Open in browser**
+   ```
+   Navigate to http://localhost:3000
+   ```
+### 📝 Available Scripts
+```bash
+# Development
+npm run dev          # Start dev server with Docker services
+
+# Production
+npm run build        # Build the project for production
+npm start            # Start production server
+
+# Code Quality
+npm run lint         # Run ESLint
+```
+### 🔐 Authentication
+**PostBoy supports multiple authentication methods:**
+
+- **GitHub OAuth: Sign in with GitHub account**
+- **Google OAuth: Sign in with Google account**
+- **Email/Password: Traditional email-based authentication (if configured)**
+- **Authentication is managed by Better Auth, a secure authentication library for Next.js applications.**
+
+### 🤖 AI Integration
+**The application includes AI-powered features using Google's Generative AI (Gemini):**
+- **AI Agent Assistants: AI-powered helpers for request generation and API exploration**
+- **Smart Documentation: Automatic API documentation suggestions**
+- **Request Generation: AI-assisted request creation based on descriptions**
+- **Configure your API key in the .env file:**
+```bash
+GOOGLE_GENERATIVE_AI_API_KEY=your_api_key
+```
+### 🌍 Real-time Features
+**Real-time collaboration features enable:**
+- **Live workspace updates**
+- **Synchronized request modifications**
+- **Real-time member presence**
+- **Instant notification system**
+
+### 🎨 UI Components
+**The project uses a comprehensive component library built on Radix UI and Tailwind CSS:**
+- **Forms & Inputs**
+- **Dialogs & Modals**
+- **Navigation components**
+- **Data display components**
+- **Feedback components**
+- **Layout components**
+
+**All components are located in src/components/ui/ and are fully customizable.**
+
+### 🔒 Security
+- **Authentication: Secure OAuth integration with Better Auth**
+- **Environment Variables: Sensitive data stored in .env**
+- **HTTPS Ready: Production-ready configuration**
+- **Input Validation: Zod-based schema validation**
+- **CORS: Configured for safe cross-origin requests**
+
+### 📱 Responsive Design
+**The application is fully responsive and works on:**
+- **Desktop browsers**
+- **Tablets**
+- **Mobile devices**
+
+### 🐳 Docker Support
+**For containerized deployment:**
+```bash
+# Start all services
+docker-compose up
+
+# Services included:
+# - PostgreSQL database
+# - Redis (if configured)
+```
+
+## 📚 Key Libraries & Their Uses
+```bash
+## Key Libraries & Their Uses
+
+| Library                   | Purpose                           |
+|---------------------------|-----------------------------------|
+| next                      | React framework & routing         |
+| react-hook-form           | Form state management             |
+| zod                       | Schema validation                 |
+| @tanstack/react-query     | Server state management           |
+| zustand                   | Client state management           |
+| @radix-ui                 | Accessible UI components          |
+| tailwindcss               | Utility-first CSS                 |
+| prisma                    | Database ORM                      |
+| better-auth               | Authentication framework          |
+| @ai-sdk/google            | Google AI integration (Gemini)    |
+| @monaco-editor/react      | Code editor                       |
+| axios                     | HTTP client                       |
+| recharts                  | Data visualization                |
+| sonner                    | Toast notifications               |
+
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Create a feature branch  
+   ```bash
+   git checkout -b feature/amazing-feature
+   
+1. Commit your changes
+   ```bash
+   git commit -m 'Add amazing feature'
+
+1. Push to the branch  
+   ```bash
+   git push origin feature/amazing-feature
+
+4. Open a Pull Request
+
+
+## 📄 License
+This project is private and proprietary.
+
+## 🆘 Support
+For issues, questions, or suggestions, please open an issue in the repository or contact the development team.
+
+### 🔒 Security
+- **Prisma - Database ORM**
+- **Next.js - React framework**
+- **Radix UI - Component library**
+- **Tailwind CSS - Styling**
+- **Better Auth - Authentication**
+
+
+  
+
+
+   
