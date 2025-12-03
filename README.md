@@ -16,6 +16,39 @@ PostBoy is a modern, full-stack web application for API testing, request managem
 - **Team Invitations**: Invite team members to workspaces with email invitations
 - **Dark Theme**: UI with dark theme
 
+## 📸 Screenshots
+
+### 🔹 Dashboard
+![Dashboard](./public/screenshots/dashboard.png)
+
+### 🔹 WebSocket Connection Successful
+![WebSocket Connection](./public/screenshots/Small_Node.js_Connection.png)
+
+### 🔹 WebSocket Message Received
+![Message Received](./public/screenshots/connection_successul.png)
+
+### 🔹 Node WebSocket Server Output
+![Node Server](./public/screenshots/message_recieved_from_client.png)
+
+### 🔹 AI Request Name Suggestions
+![AI Name Suggestions](./public/screenshots/AI_Name_Suggestions.png)
+
+### 🔹 AI JSON Body Generator
+![AI Body Generator](./public/screenshots/AI_Body_Feature.png)
+
+### 🔹 Generated AI JSON Response
+![AI Body Result](./public/screenshots/Result_AI_Body_Feautre.png)
+
+### 🔹 Invite Link Generation
+![Invite Link](./public/screenshots/generating_link_to_invite.png)
+
+### 🔹 Joke API Example
+![Joke API](./public/screenshots/joke_api.png)
+
+### 🔹 Joke API Output
+![Joke API](./public/screenshots/result.png)
+
+
 ## 🛠️ Tech Stack
 
 ### Frontend
